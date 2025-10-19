@@ -1,21 +1,20 @@
+## Servers
 [[server]]
-name = "Bondsmith"
+name = "bondsmith"
 [server.config]
 address = "https://192.168.10.20:8120"
 enabled = true
 
-##
-
+## Repositories
 [[repo]]
 name = "home-lab-applications"
 [repo.config]
-server = "Bondsmith"
-builder = "Bondsmith"
+server = "bondsmith"
+builder = "bondsmith"
 git_account = "fulrich"
 repo = "fulrich/homelab-applications"
 
-##
-
+## Backup Database Procedure
 [[procedure]]
 name = "Backup Core Database"
 description = "Triggers the Core database backup at the scheduled time."
@@ -29,8 +28,7 @@ executions = [
   { execution.type = "BackupCoreDatabase", execution.params = {}, enabled = true }
 ]
 
-##
-
+## Auto update stacks procedure (Might not be needed)
 [[procedure]]
 name = "Global Auto Update"
 description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
@@ -44,16 +42,15 @@ executions = [
   { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
 ]
 
-##
+## Image builder
 
 [[builder]]
-name = "Bondsmith"
+name = "bondsmith"
 [builder.config]
 type = "Server"
-params.server_id = "Bondsmith"
+params.server_id = "bondsmith"
 
-##
-
+## Sync with github
 [[resource_sync]]
 name = "homelab-applications"
 [resource_sync.config]

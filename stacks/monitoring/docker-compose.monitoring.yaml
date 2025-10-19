@@ -1,16 +1,39 @@
-## Add your compose file here
+name: monitoring
+
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
+  dozzle:
+    image: amir20/dozzle:v8.14.4@sha256:e944224b30d0ac8771d7e54c5ae0dfb30859d6b7e590b65e90bafe39c15c46ce
+    container_name: dozzle
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - '${dozzle_port}:8080'
+    restart: unless-stopped
 
-# networks:
-#   default: {}
+  glances:
+    image: nicolargo/glances:4.3.0.8-full@sha256:3690a895a732e8d14d230c2b698fc044b1d5b1b9d56a46a5bc9d69f6f6c9fd6f
+    container_name: glances
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      GLANCES_OPT: -w -6
+    ports:
+      - '${glances_port}:61208'
+    restart: unless-stopped
+    pid: host
+    privileged: true
 
-# volumes:
-#   data:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1.23.16@sha256:431fee3be822b04861cf0e35daf4beef6b7cb37391c5f26c3ad6e12ce280fe18
+    container_name: uptime-kuma
+    volumes:
+      - ./uptime-kuma:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - '${uptime_kuma_port}:3001'
+    restart: unless-stopped
+
+networks:
+  default:
+    name: ${docker_network}
+    external: true

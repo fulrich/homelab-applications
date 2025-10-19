@@ -1,1 +1,62 @@
-## Add resources to get started
+[[server]]
+name = "Bondsmith"
+[server.config]
+address = "https://192.168.10.20:8120"
+enabled = true
+
+##
+
+[[repo]]
+name = "home-lab-applications"
+[repo.config]
+server = "Bondsmith"
+builder = "Bondsmith"
+git_account = "fulrich"
+repo = "fulrich/homelab-applications"
+
+##
+
+[[procedure]]
+name = "Backup Core Database"
+description = "Triggers the Core database backup at the scheduled time."
+tags = ["system"]
+config.schedule = "Every day at 01:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "BackupCoreDatabase", execution.params = {}, enabled = true }
+]
+
+##
+
+[[procedure]]
+name = "Global Auto Update"
+description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags = ["system"]
+config.schedule = "Every day at 03:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
+]
+
+##
+
+[[builder]]
+name = "Bondsmith"
+[builder.config]
+type = "Server"
+params.server_id = "Bondsmith"
+
+##
+
+[[resource_sync]]
+name = "homelab-applications"
+[resource_sync.config]
+linked_repo = "home-lab-applications"
+resource_path = ["komodo.toml"]
+managed = true

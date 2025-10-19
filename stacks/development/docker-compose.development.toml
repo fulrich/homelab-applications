@@ -1,16 +1,17 @@
-## Add your compose file here
+name: Development
+
 services:
-  hello_world:
-    image: hello-world
-    # networks:
-    #   - default
-    # ports:
-    #   - 3000:3000
-    # volumes:
-    #   - data:/data
-
-# networks:
-#   default: {}
-
-# volumes:
-#   data:
+  server:
+    image: codeberg.org/forgejo/forgejo:13
+    container_name: forgejo
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: unless-stopped
+    volumes:
+      - ./forgejo:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - '3000:3000'
+      - '222:22'

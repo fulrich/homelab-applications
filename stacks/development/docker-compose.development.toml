@@ -4,12 +4,8 @@ services:
   server:
     image: codeberg.org/forgejo/forgejo:13
     container_name: forgejo
-    user: ${uid}:${gid}
     environment:
-      USER_UID: ${uid}
-      USER_GID: ${gid}
       FORGEJO____APP_NAME: "Ulrichs Git"
-      FORGEJO____RUN_USER: ${user}
     restart: unless-stopped
     volumes:
       - ./forgejo:/data

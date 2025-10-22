@@ -6,6 +6,7 @@ services:
     container_name: forgejo
     environment:
       FORGEJO____APP_NAME: "Ulrichs Git"
+      FORGEJO____RUN_USER: "git"
     restart: unless-stopped
     volumes:
       - ./forgejo:/data

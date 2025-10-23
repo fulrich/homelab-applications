@@ -15,3 +15,8 @@ services:
     ports:
       - '3000:3000'
       - '222:22'
+
+networks:
+  default:
+    name: ${docker_network}
+    external: true
